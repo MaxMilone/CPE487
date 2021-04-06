@@ -19,7 +19,7 @@ ARCHITECTURE Behavioral OF vga_top IS
     SIGNAL S_red, S_green, S_blue : STD_LOGIC;
     SIGNAL S_vsync : STD_LOGIC;
     SIGNAL S_pixel_row, S_pixel_col : STD_LOGIC_VECTOR (10 DOWNTO 0);
-    COMPONENT ball IS
+    COMPONENT skigate IS
         PORT (
             v_sync : IN STD_LOGIC;
             pixel_row : IN STD_LOGIC_VECTOR(10 DOWNTO 0);
@@ -60,9 +60,9 @@ BEGIN
     vga_green(1 DOWNTO 0) <= "00";
     vga_blue(0) <= '0';
 
-    add_ball : ball
+    add_gate : skigate
     PORT MAP(
-        --instantiate ball component
+        --instantiate gate at top of screen
         v_sync    => S_vsync, 
         pixel_row => S_pixel_row, 
         pixel_col => S_pixel_col, 
