@@ -8,8 +8,8 @@ ENTITY skigate IS
         v_sync : IN STD_LOGIC;
         pixel_row : IN STD_LOGIC_VECTOR(10 DOWNTO 0);
         pixel_col : IN STD_LOGIC_VECTOR(10 DOWNTO 0);
-        bat_x : IN STD_LOGIC_VECTOR (10 DOWNTO 0); -- player x position
-        serve : IN STD_LOGIC; -- initiates serve
+        skiier_x : IN STD_LOGIC_VECTOR (10 DOWNTO 0); -- player x position
+        start : IN STD_LOGIC; -- initiates game
         red : OUT STD_LOGIC;
         green : OUT STD_LOGIC;
         blue : OUT STD_LOGIC
@@ -20,10 +20,10 @@ ARCHITECTURE Behavioral OF skigate IS
 	CONSTANT size  : INTEGER := 8;
 	SIGNAL gate_on : STD_LOGIC; -- indicates whether the gate is over current pixel position
 	-- current gate position - intitialized to center of screen
-	SIGNAL gate_x  : STD_LOGIC_VECTOR(10 DOWNTO 0) := CONV_STD_LOGIC_VECTOR(400, 11);
+	SIGNAL gate_x  : STD_LOGIC_VECTOR(10 DOWNTO 0) := CONV_STD_LOGIC_VECTOR(600, 11);
 	SIGNAL gate_y  : STD_LOGIC_VECTOR(10 DOWNTO 0) := CONV_STD_LOGIC_VECTOR(300, 11);
-	-- current gate motion - initialized to +4 pixels/frame
-	SIGNAL gate_y_motion : STD_LOGIC_VECTOR(10 DOWNTO 0) := "00000000100";
+	-- current gate motion - initialized to -4 pixels/frame
+	SIGNAL gate_y_motion : STD_LOGIC_VECTOR(10 DOWNTO 0) := "11111111100";
 BEGIN
 	red <= '1'; -- color setup for red gate on white background
 	green <= NOT gate_on;
