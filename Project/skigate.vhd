@@ -3,31 +3,33 @@ USE IEEE.STD_LOGIC_1164.ALL;
 USE IEEE.STD_LOGIC_ARITH.ALL;
 USE IEEE.STD_LOGIC_UNSIGNED.ALL;
 
-ENTITY skigates IS
+ENTITY skigate IS
     PORT (
         v_sync : IN STD_LOGIC;
         pixel_row : IN STD_LOGIC_VECTOR(10 DOWNTO 0);
         pixel_col : IN STD_LOGIC_VECTOR(10 DOWNTO 0);
-        bat_x : IN STD_LOGIC_VECTOR (10 DOWNTO 0); -- current bat x position
-        serve : IN STD_LOGIC; -- initiates serve
+        ski_x : IN STD_LOGIC_VECTOR (10 DOWNTO 0); -- current player x position
+        start : IN STD_LOGIC; -- initiates start of game
         red : OUT STD_LOGIC;
         green : OUT STD_LOGIC;
         blue : OUT STD_LOGIC
     );
-END bat_n_ball;
+END skigate;
 
-ARCHITECTURE Behavioral OF bat_n_ball IS
-    CONSTANT bsize : INTEGER := 8; -- ball size in pixels
-    CONSTANT bat_w : INTEGER := 20; -- bat width in pixels
-    CONSTANT bat_h : INTEGER := 3; -- bat height in pixels
+ARCHITECTURE Behavioral OF skigate IS
+    CONSTANT gatesize : INTEGER := 8; -- gate size in pixels
+    CONSTANT ski_w : INTEGER := 5; -- bat width in pixels
+    CONSTANT ski_h : INTEGER := 5; -- bat height in pixels
     -- distance ball moves each frame
-    CONSTANT ball_speed : STD_LOGIC_VECTOR (10 DOWNTO 0) := CONV_STD_LOGIC_VECTOR (6, 11);
-    SIGNAL ball_on : STD_LOGIC; -- indicates whether ball is at current pixel position
-    SIGNAL bat_on : STD_LOGIC; -- indicates whether bat at over current pixel position
-    SIGNAL game_on : STD_LOGIC := '0'; -- indicates whether ball is in play
-    -- current ball position - intitialized to center of screen
-    SIGNAL ball_x : STD_LOGIC_VECTOR(10 DOWNTO 0) := CONV_STD_LOGIC_VECTOR(400, 11);
-    SIGNAL ball_y : STD_LOGIC_VECTOR(10 DOWNTO 0) := CONV_STD_LOGIC_VECTOR(300, 11);
+    CONSTANT gate_speed : STD_LOGIC_VECTOR (10 DOWNTO 0) := CONV_STD_LOGIC_VECTOR (6, 11);
+    SIGNAL gate_on : STD_LOGIC; -- indicates whether ball is at current pixel position
+    SIGNAL ski_on : STD_LOGIC; -- indicates whether bat at over current pixel position
+    SIGNAL game_on : STD_LOGIC := '0'; -- indicates whether gate is in motion
+
+    -- current gate position - intitialized to top of screen
+    SIGNAL gate_x : STD_LOGIC_VECTOR(10 DOWNTO 0) := CONV_STD_LOGIC_VECTOR(400, 11);
+    SIGNAL gate_y : STD_LOGIC_VECTOR(10 DOWNTO 0) := CONV_STD_LOGIC_VECTOR(300, 11);
+
     -- bat vertical position
     CONSTANT bat_y : STD_LOGIC_VECTOR(10 DOWNTO 0) := CONV_STD_LOGIC_VECTOR(500, 11);
     -- current ball motion - initialized to (+ ball_speed) pixels/frame in both X and Y directions
