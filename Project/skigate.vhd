@@ -34,7 +34,7 @@ ARCHITECTURE Behavioral OF skigate IS
 
     -- player vertical position
 -- CHANGE THIS TO TOP OF SCREEN
-    CONSTANT bat_y : STD_LOGIC_VECTOR(10 DOWNTO 0) := CONV_STD_LOGIC_VECTOR(50, 11);
+    CONSTANT ski_y : STD_LOGIC_VECTOR(10 DOWNTO 0) := CONV_STD_LOGIC_VECTOR(50, 11);
     -- current gate motion - initialized to (+ gate_speed) pixels/frame in both X and Y directions
     SIGNAL gate_y_motion : STD_LOGIC_VECTOR(10 DOWNTO 0) := gate_speed;
 BEGIN
@@ -81,22 +81,12 @@ BEGIN
             game_on <= '0'; -- and make ball disappear
         END IF;
         -- if player is in between the gates, spawn new gate
-        IF (gate_x + gate_w/2) >= (ski_x - ski_w) AND
-         (gate_x - gate_w/2) <= (ski_x + ski_w) AND
-             (gate_y + gate_w/2) >= (ski_y - ski_h) AND
-             (gate_y - gate_w/2) <= (ski_y + ski_h) THEN
-                 SIGNAL gate_x : STD_LOGIC_VECTOR(10 DOWNTO 0) := CONV_STD_LOGIC_VECTOR(400, 11);
-                 SIGNAL gate_y : STD_LOGIC_VECTOR(10 DOWNTO 0) := CONV_STD_LOGIC_VECTOR(600, 11);
-        END IF;
-        -- compute next ball vertical position
-        -- variable temp adds one more bit to calculation to fix unsigned underflow problems
-        -- when ball_y is close to zero and ball_y_motion is negative
-        temp := ('0' & gate_y) + (gate_y_motion(10) & gate_y_motion);
-        IF game_on = '0' THEN
-            gate_y <= CONV_STD_LOGIC_VECTOR(440, 11);
-        ELSIF temp(11) = '1' THEN
-            gate_y <= (OTHERS => '0');
-        ELSE gate_y <= temp(10 DOWNTO 0); -- 9 downto 0
+      --  IF (gate_x + gate_w/2) >= (ski_x - ski_w) AND
+        -- (gate_x - gate_w/2) <= (ski_x + ski_w) AND
+         --    (gate_y + gate_w/2) >= (ski_y - ski_h) AND
+         --    (gate_y - gate_w/2) <= (ski_y + ski_h) THEN
+               --  SIGNAL gate_x : STD_LOGIC_VECTOR(10 DOWNTO 0) := CONV_STD_LOGIC_VECTOR(400, 11);
+               --  SIGNAL gate_y : STD_LOGIC_VECTOR(10 DOWNTO 0) := CONV_STD_LOGIC_VECTOR(600, 11);
         END IF;
     END PROCESS;
 END Behavioral;
